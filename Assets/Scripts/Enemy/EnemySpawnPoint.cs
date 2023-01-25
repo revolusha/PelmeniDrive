@@ -1,0 +1,4 @@
+public class EnemySpawnPoint : SpawnPoint
+{
+
+}
