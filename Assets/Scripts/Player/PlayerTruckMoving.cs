@@ -1,15 +1,19 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections;
+using UnityEngine;
 
 public class PlayerTruckMoving : MonoBehaviour
 {
     [SerializeField] private GameObject _steeringWheel;
-    [SerializeField] private double _truckSpeed = 40;
-    [SerializeField] private double _truckMaxSpeed = 40;
-    [SerializeField] private double _acceleration = 0.001;
+    [SerializeField] private double _acceleration;
+    [SerializeField] private double _truckSpeed;
+    [SerializeField] private double _truckMaxSpeed;
+
+    const float treePunchDelay = 0.6f;
 
     private Player _player;
 
-    private float _truckSpeedFloat => ((float)_truckSpeed);
+    private float TruckSpeedFloat => ((float)_truckSpeed);
 
     private void OnEnable()
     {
@@ -22,6 +26,32 @@ public class PlayerTruckMoving : MonoBehaviour
             return;
         
         Move();
+        ApplyAcceleration();
+    }
+
+    public void SetDifficulty(int difficulty)
+    {
+        const double EasyStartSpeed = 32;
+        const double EasyMaxSpeed = 45;
+        const double EasyAcceleration = 0.02;
+        const double HardStartSpeed = 40;
+        const double HardMaxSpeed = 80;
+        const double HardAcceleration = 0.085;
+
+        switch (difficulty)
+        {
+            case 1:
+                _truckSpeed = HardStartSpeed;
+                _truckMaxSpeed = HardMaxSpeed;
+                _acceleration = HardAcceleration;
+                break;
+
+            default:
+                _truckSpeed = EasyStartSpeed;
+                _truckMaxSpeed = EasyMaxSpeed;
+                _acceleration = EasyAcceleration;
+                break;
+        }
     }
 
     private void Move()
@@ -31,7 +61,7 @@ public class PlayerTruckMoving : MonoBehaviour
         float _truckRotation = _player.GetRotationImpact();
         float _steeringWheelTurn = _player.GetSteeringWheelState();
 
-        transform.SetPositionAndRotation(transform.position + _truckSpeedFloat * Time.deltaTime * transform.forward, Quaternion.Euler(0, _truckRotation * degree, 0));
+        transform.SetPositionAndRotation(transform.position + TruckSpeedFloat * Time.deltaTime * transform.forward, Quaternion.Euler(0, _truckRotation * degree, 0));
         _steeringWheel.transform.localRotation = Quaternion.Euler(_steeringWheel.transform.localRotation.x, _steeringWheel.transform.localRotation.y, -_steeringWheelTurn * degree);
     }
 
@@ -44,5 +74,16 @@ public class PlayerTruckMoving : MonoBehaviour
             _truckSpeed = _truckMaxSpeed;
         else
             _truckSpeed += _acceleration * Time.deltaTime;
+    }
+
+    public void KeepMovingUntilTreePunch()
+    {
+        StartCoroutine(StopPlayerAfterTreePunchEvent());
+    }
+
+    private IEnumerator StopPlayerAfterTreePunchEvent()
+    {
+        yield return new WaitForSeconds(treePunchDelay);
+        _player.GetPunchedByTree();
     }
 }

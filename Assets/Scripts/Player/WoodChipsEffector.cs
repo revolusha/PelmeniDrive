@@ -4,20 +4,20 @@ using UnityEngine;
 
 public class WoodChipsEffector : MonoBehaviour
 {
-    private PlayerTruckColliding _playerTruckColliding;
+    private Player _player;
     private ParticleSystem _particleSystem;
 
     private void OnEnable()
     {
-        _playerTruckColliding = GetComponentInParent<PlayerTruckColliding>();
-        _playerTruckColliding.OnTreePunch += Play;
+        _player = Game.Player;
+        _player.OnTreePunch += Play;
         _particleSystem = GetComponent<ParticleSystem>();
         _particleSystem.Stop();
     }
 
     private void OnDisable()
     {
-        _playerTruckColliding.OnTreePunch -= Play;
+        _player.OnTreePunch -= Play;
     }
 
     private void Play()

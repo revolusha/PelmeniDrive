@@ -23,16 +23,14 @@ public class InGameMenu : MonoBehaviour
         _arcade = Game.Arcade;
         _arcade.OnAllPuzzlesSolved += ShowWin;
         _player.OnDead += ShowLose;
-        _player.OnDeadByTree += ShowLose;
-        Game.Instance.OnRestart += HideMenu;
+        _player.OnGettingDeadByTree += ShowLose;
     }
 
     private void OnDisable()
     {
         _arcade.OnAllPuzzlesSolved -= ShowWin;
         _player.OnDead -= ShowLose;
-        _player.OnDeadByTree -= ShowLose;
-        Game.Instance.OnRestart -= HideMenu;
+        _player.OnGettingDeadByTree -= ShowLose;
     }
 
     public void ShowMenu()
@@ -43,7 +41,6 @@ public class InGameMenu : MonoBehaviour
 
     public void HideMenu()
     {
-        _scoreText.text = "";
         _animator.SetBool(BoolName, false);
     }
 

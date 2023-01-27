@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class MusicPlayer : MonoBehaviour
 {
-    [SerializeField] private PlayerTruckColliding _playerColliding;
     [SerializeField] private AudioClip _winMusic;
     [SerializeField] private AudioClip _loseMusic;
     [SerializeField] private AudioClip[] _musicArray;
@@ -13,6 +12,7 @@ public class MusicPlayer : MonoBehaviour
     private int _currentTrack = -1;
 
     private Arcade _arcade;
+    private Player _player;
     private AudioSource _music;
     private Coroutine _musicPlayJob;
 
@@ -20,8 +20,9 @@ public class MusicPlayer : MonoBehaviour
     {
         _music = GetComponent<AudioSource>();
         _arcade = Game.Arcade;
-        _playerColliding.OnCarImpact += PlayLoseMusic;
-        _playerColliding.OnTreePunch += PlayLoseMusic;
+        _player = Game.Player;
+        _player.OnDead += PlayLoseMusic;
+        _player.OnTreePunch += PlayLoseMusic;
         _arcade.OnAllPuzzlesSolved += PlayWinMusic;
     }
 
@@ -33,8 +34,8 @@ public class MusicPlayer : MonoBehaviour
     private void OnDisable()
     {
         StopMusic();
-        _playerColliding.OnCarImpact -= PlayLoseMusic;
-        _playerColliding.OnTreePunch -= PlayLoseMusic;
+        _player.OnDead -= PlayLoseMusic;
+        _player.OnTreePunch -= PlayLoseMusic;
     }
 
     public void PlayWinMusic()

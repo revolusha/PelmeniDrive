@@ -12,12 +12,6 @@ public class Arcade
 
     private Transform[] _spawnPoints;
 
-    public Arcade()
-    {
-        PreparePuzzleGame();
-        ResetPuzzle();
-    }
-
     public Action OnWrongClicked;
     public Action OnPuzzleSolved;
     public Action OnAllPuzzlesSolved;
@@ -37,6 +31,12 @@ public class Arcade
 
             return sum;
         }
+    }
+
+    public void Initialize()
+    {
+        PreparePuzzleGame();
+        ResetPuzzle();
     }
 
     public void RestartPuzzleGame()

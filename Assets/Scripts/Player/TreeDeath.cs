@@ -11,12 +11,12 @@ public class TreeDeath : MonoBehaviour
         _player = Game.Player;
         _tree = GetComponentInChildren<Animator>();
         _tree.gameObject.SetActive(false);
-        _player.OnDeadByTree += MakeTreePunch;
+        _player.OnGettingDeadByTree += MakeTreePunch;
     }
 
     private void OnDisable()
     {
-        _player.OnDeadByTree -= MakeTreePunch;
+        _player.OnGettingDeadByTree -= MakeTreePunch;
     }
 
     private void MakeTreePunch()

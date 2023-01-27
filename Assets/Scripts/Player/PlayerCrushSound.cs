@@ -8,20 +8,20 @@ public class PlayerCrushSound : MonoBehaviour
     [SerializeField] private AudioClip _tree;
 
     private AudioSource _output;
-    private PlayerTruckColliding _playerCollider;
+    private Player _player;
 
     private void OnEnable()
     {
+        _player = Game.Player;
         _output = GetComponent<AudioSource>();
-        _playerCollider = GetComponentInParent<PlayerTruckColliding>();
-        _playerCollider.OnCarImpact += PlayMetalSound;
-        _playerCollider.OnTreePunch += PlayWoodSound;
+        _player.OnDead += PlayMetalSound;
+        _player.OnTreePunch += PlayWoodSound;
     }
 
     private void OnDisable()
     {
-        _playerCollider.OnCarImpact -= PlayMetalSound;
-        _playerCollider.OnTreePunch -= PlayWoodSound;
+        _player.OnDead -= PlayMetalSound;
+        _player.OnTreePunch -= PlayWoodSound;
     }
 
     private void PlayWoodSound()
@@ -37,7 +37,7 @@ public class PlayerCrushSound : MonoBehaviour
     private void PlayCrushSound(AudioClip sound)
     {
         _output.PlayOneShot(sound);
-        _playerCollider.OnCarImpact -= PlayMetalSound;
-        _playerCollider.OnTreePunch -= PlayWoodSound;
+        _player.OnDead -= PlayMetalSound;
+        _player.OnTreePunch -= PlayWoodSound;
     }
 }

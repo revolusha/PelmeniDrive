@@ -8,21 +8,21 @@ public class PlayerEngineSound : MonoBehaviour
     [SerializeField] private AudioClip _engineBroken;
 
     private AudioSource _output;
-    private PlayerTruckColliding _playerCollider;
+    private Player _player;
 
     private void OnEnable()
     {
-        _playerCollider = GetComponentInParent<PlayerTruckColliding>();
-        _playerCollider.OnCarImpact += SetBrokenSound;
-        _playerCollider.OnTreePunch += SetBrokenSound;
+        _player = Game.Player;
+        _player.OnDead += SetBrokenSound;
+        _player.OnTreePunch += SetBrokenSound;
         _output = GetComponent<AudioSource>();
         ChangeSound(_engineNormal);
     }
 
     private void OnDisable()
     {
-        _playerCollider.OnCarImpact -= SetBrokenSound;
-        _playerCollider.OnTreePunch -= SetBrokenSound;
+        _player.OnDead -= SetBrokenSound;
+        _player.OnTreePunch -= SetBrokenSound;
     }
 
     private void SetBrokenSound()

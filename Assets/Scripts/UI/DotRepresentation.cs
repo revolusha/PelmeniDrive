@@ -11,15 +11,10 @@ public class DotRepresentation : MonoBehaviour
 
     public Action OnClicked;
 
-    private Image _image;
     private AudioSource _output;
-
 
     private void OnEnable()
     {
-        if (_image == null)
-            _image = GetComponent<Image>();
-
         _output = GetComponentInParent<AudioSource>();
     }
 
@@ -41,11 +36,11 @@ public class DotRepresentation : MonoBehaviour
 
     public void SetSquareColorToPressed()
     {
-        _image.color = _pressedColor;
+        GetComponent<Image>().color = _pressedColor;
     }
 
     public void ResetDot()
     {
-        _image.color = Color.white;
+        GetComponent<Image>().color = Color.white;
     }
 }

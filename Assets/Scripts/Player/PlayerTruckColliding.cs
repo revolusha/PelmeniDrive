@@ -2,19 +2,19 @@ using System;
 using System.Collections;
 using UnityEngine;
 
+[RequireComponent(typeof(PlayerTruckMoving))]
+
 public class PlayerTruckColliding : MonoBehaviour
 {
-    const float treePunchDelay = 0.6f;
-
-    public Action OnTreePunch;
     public Action<Vector3> OnCarImpactWithPosition;
-    public Action OnCarImpact;
 
     private Player _player;
+    private PlayerTruckMoving _moving;
 
     private void OnEnable()
     {
         _player = Game.Player;
+        _moving = GetComponent<PlayerTruckMoving>();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -27,28 +27,15 @@ public class PlayerTruckColliding : MonoBehaviour
             _player.PlayDead();
             other.GetComponent<EnemyTruck>().SetSpeed(0);
             OnCarImpactWithPosition?.Invoke(other.ClosestPoint(transform.position));
-            OnCarImpact?.Invoke();
         }
 
         if (other.GetComponent<Border>() != null)
         {
             _player.TriggerTreeDeath();
-            KeepMovingUntilTreePunch();
+            _moving.KeepMovingUntilTreePunch();
         }
 
         if (other.GetComponent<BuildingHider>() != null)
             other.GetComponent<BuildingHider>().Hide();
-    }
-
-    private void KeepMovingUntilTreePunch()
-    {
-        StartCoroutine(StopPlayerAfterTreePunchEvent());
-    }
-
-    private IEnumerator StopPlayerAfterTreePunchEvent()
-    {
-        yield return new WaitForSeconds(treePunchDelay);
-        _player.PlayDead();
-        OnTreePunch?.Invoke();
     }
 }

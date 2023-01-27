@@ -1,0 +1,75 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!181963792 &2655988077585873504
+Preset:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Tutotial
+  m_TargetType:
+    m_NativeTypeID: 114
+    m_ManagedTypePPtr: {fileID: 11500000, guid: cf8b3fc2a462f2a42bf85358c7dd7e98, type: 3}
+    m_ManagedTypeFallback: 
+  m_Properties:
+  - target: {fileID: 0}
+    propertyPath: m_Enabled
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_EditorHideFlags
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_EditorClassIdentifier
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: _description
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: _counter
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: _tutorials.Array.size
+    value: 3
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: _tutorials.Array.data[0].Clip
+    value: 
+    objectReference: {fileID: 32900000, guid: 3b8654b3156216e47a1442d86b6e7613, type: 3}
+  - target: {fileID: 0}
+    propertyPath: _tutorials.Array.data[0].Descriptions
+    value: Use "A" and "D" buttons to turn Steering Wheel
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: _tutorials.Array.data[0].Title
+    value: STEER
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: _tutorials.Array.data[1].Clip
+    value: 
+    objectReference: {fileID: 32900000, guid: d434eebcfaa94d24692e16c0f80e9a9f, type: 3}
+  - target: {fileID: 0}
+    propertyPath: _tutorials.Array.data[1].Descriptions
+    value: Press "Space" button to toggle view between road and cooking area
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: _tutorials.Array.data[1].Title
+    value: CHANGE VIEW
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: _tutorials.Array.data[2].Clip
+    value: 
+    objectReference: {fileID: 32900000, guid: fcea2aeb91d68cf49a062f3768f3edda, type: 3}
+  - target: {fileID: 0}
+    propertyPath: _tutorials.Array.data[2].Descriptions
+    value: Click numbers in right order from 0 to 5 to make cooking action
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: _tutorials.Array.data[2].Title
+    value: COOK
+    objectReference: {fileID: 0}
+  m_ExcludedProperties: []

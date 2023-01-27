@@ -39,7 +39,7 @@ public class ViewChanger : MonoBehaviour
         _camera = GetComponent<Camera>();
         _defaultFOV = _camera.fieldOfView;
         _player.OnDead += TriggerDeathCam;
-        _player.OnDeadByTree += TriggerDeathCam;
+        _player.OnGettingDeadByTree += TriggerDeathCam;
         _arcadeCanvas.SetActive(false);
     }
 
@@ -52,7 +52,7 @@ public class ViewChanger : MonoBehaviour
     private void OnDisable()
     {
         _player.OnDead -= TriggerDeathCam;
-        _player.OnDeadByTree -= TriggerDeathCam;
+        _player.OnGettingDeadByTree -= TriggerDeathCam;
     }
 
     public void ChangeView()

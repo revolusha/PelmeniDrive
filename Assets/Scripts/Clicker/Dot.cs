@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class Dot
 {
-    private DotRepresentation _representation;
-    private GameObject _gameObject;
+    private readonly DotRepresentation _representation;
+    private readonly GameObject _gameObject;
 
     public Dot(DotRepresentation dotRepresentation)
     {

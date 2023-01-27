@@ -23,12 +23,12 @@ public abstract class EntitySpawner : MonoBehaviour
         TryPlaceEntity();
         _spawning = StartCoroutine(StartEntitySpawning());
         _player.OnDead += StopSpawning;
-        _player.OnDeadByTree += StopSpawning;
+        _player.OnGettingDeadByTree += StopSpawning;
     }
     protected virtual void OnDisable()
     {
         _player.OnDead -= StopSpawning;
-        _player.OnDeadByTree -= StopSpawning;
+        _player.OnGettingDeadByTree -= StopSpawning;
         StopSpawning();
     }
 

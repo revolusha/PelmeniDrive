@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 
 public class Player
 {
@@ -12,7 +13,8 @@ public class Player
     }
 
     public Action OnDead;
-    public Action OnDeadByTree;
+    public Action OnGettingDeadByTree;
+    public Action OnTreePunch;
 
     public bool IsDead { get; private set; }
     public bool IsCanControl { get; private set; }
@@ -26,7 +28,7 @@ public class Player
     {
         IsCanControl = false;
         _steering.MakeTreePunchTurn();
-        OnDeadByTree?.Invoke();
+        OnGettingDeadByTree?.Invoke();
     }
 
     public void PlayDead()
@@ -43,5 +45,11 @@ public class Player
     public float GetSteeringWheelState()
     {
         return _steering.SteeringWheelState;
+    }
+
+    public void GetPunchedByTree()
+    {
+        PlayDead();
+        OnTreePunch?.Invoke();
     }
 }
