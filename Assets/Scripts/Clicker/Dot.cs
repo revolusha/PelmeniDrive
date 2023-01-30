@@ -4,29 +4,18 @@ using UnityEngine;
 public class Dot
 {
     private readonly DotRepresentation _representation;
-    private readonly GameObject _gameObject;
 
     public Dot(DotRepresentation dotRepresentation)
     {
         _representation = dotRepresentation;
-        _gameObject = dotRepresentation.gameObject;
         _representation.OnClicked += Click;
-        Hide();
+        _representation.gameObject.SetActive(false);
     }
 
     public Action OnClicked;
 
     public bool IsClicked { get; set; }
-
-    public void Hide()
-    {
-        _gameObject.SetActive(false);
-    }
-
-    public void Show()
-    {
-        _gameObject.SetActive(true);
-    }
+    public DotRepresentation Representation => _representation;
 
     public void Click()
     {
@@ -46,15 +35,5 @@ public class Dot
     {
         _representation.ResetDot();
         IsClicked = false;
-    }
-
-    public void SetText(string text)
-    {
-        _representation.SetText(text);
-    }
-
-    public void MoveToTransform(Transform transform)
-    {
-        _representation.transform.localPosition = transform.position;
     }
 }

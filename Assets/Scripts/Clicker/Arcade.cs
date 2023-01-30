@@ -1,37 +1,25 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Arcade
 {
-    private int _mistakeCount;
+    private readonly DotHandler _dotHandler;
 
+    private int _mistakeCount;
     private PuzzleConfiguration _config;
 
-    private readonly List<Dot> _dots = new List<Dot>();
-
-    private Transform[] _spawnPoints;
+    public Arcade()
+    {
+        _dotHandler = new DotHandler(this);
+    }
 
     public Action OnWrongClicked;
     public Action OnPuzzleSolved;
     public Action OnAllPuzzlesSolved;
-
+    
     public int SolvedPuzzlesCounter { get; private set; }
     public int PuzzlesToSolveTotal { get; private set; }
-
-    private int DotsClicked
-    {
-        get
-        {
-            int sum = 0;
-
-            for (int i = 0; i < _dots.Count; i++)
-                if (_dots[i].IsClicked)
-                    sum++;
-
-            return sum;
-        }
-    }
+    public bool IsWinReached => SolvedPuzzlesCounter == PuzzlesToSolveTotal;
 
     public void Initialize()
     {
@@ -41,17 +29,7 @@ public class Arcade
 
     public void RestartPuzzleGame()
     {
-        RefreshDots();
-        GenerateClickPuzzle();
-    }
-
-    public void PreparePuzzleGame()
-    {
-        _mistakeCount = 0;
-        GetPuzzleConfiguration();
-        PuzzlesToSolveTotal = _config.PuzzlesToSolve;
-        CreateDotSpawnPoints();
-        CreateDots();
+        _dotHandler.RefreshDots();
         GenerateClickPuzzle();
     }
 
@@ -65,45 +43,22 @@ public class Arcade
         return Mathf.Round(score);
     }
 
-    private void GenerateClickPuzzle()
+    public void GenerateClickPuzzle()
     {
-        ReplaceDots();
-        ShowDots();
+        _dotHandler.RefreshDots();
+        _dotHandler.ReplaceDots();
+        _dotHandler.ShowDots();
     }
 
-    private void ReplaceDots()
+    public void ResetPuzzle()
     {
-        int indexOfList;
-        List<int> positions = GetIndexList();
-
-        for (int i = 0; i < _config.DotCount; i++)
-        {
-            indexOfList = UnityEngine.Random.Range(0, positions.Count);
-            _dots[i].MoveToTransform(_spawnPoints[positions[indexOfList]]);
-            _dots[i].SetText(i.ToString());
-            positions.RemoveAt(indexOfList);
-        }
+        _dotHandler.HideDots();
+        ArcadeConfigurator.ResetTimer();
     }
 
-    private List<int> GetIndexList()
+    public void OnClickedAnyDotEvent()
     {
-        List<int> list = new List<int>();
-
-        for (int i = 0; i < _spawnPoints.Length; i++)
-        {
-            int index = i;
-
-            list.Add(index);
-        }
-
-        return list;
-    }
-
-    private void CheckClickOrder()
-    {
-        int dotsClicked = DotsClicked;
-
-        if (_dots[dotsClicked - 1].IsClicked == false)
+        if (_dotHandler.CheckClickOrder() == false)
         {
             _mistakeCount++;
             OnWrongClicked?.Invoke();
@@ -111,67 +66,37 @@ public class Arcade
             return;
         }
 
-        if (dotsClicked == _config.DotCount)
-        {
-            SolvedPuzzlesCounter++;
-            OnPuzzleSolved?.Invoke();
-
-            if (_config.PuzzlesToSolve == SolvedPuzzlesCounter)
-            {
-                HideDots();
-                OnAllPuzzlesSolved?.Invoke();
-                return;
-            }
-
-            ResetPuzzle();
-        }
+        if (_dotHandler.DotsClicked == _config.DotCount)
+            ScoreUp();
     }
 
-    private void ResetPuzzle()
+    private void ScoreUp()
     {
-        HideDots();
-        ArcadeController.ResetTimer();
+        SolvedPuzzlesCounter++;
+        OnPuzzleSolved?.Invoke();
+
+        if (IsWinReached)
+            CheckForWin();
+
+        ResetPuzzle();
     }
 
-    private void CreateDots()
+    private void CheckForWin()
     {
-        for (int i = _dots.Count; i < _config.DotCount; i++)
-        {
-            Dot dot = new Dot(ArcadeController.CreateDotRepresentation());
-
-            dot.OnClicked += CheckClickOrder;
-            _dots.Add(dot);
-        }
+        _dotHandler.HideDots();
+        OnAllPuzzlesSolved?.Invoke();
+        return;
     }
 
-    private void RefreshDots()
+    private void PreparePuzzleGame()
     {
-        foreach (Dot dot in _dots)
-            dot.Refresh();
-    }
-
-    private void HideDots()
-    {
-        foreach (var dot in _dots)
-        {
-            dot.Hide();
-        }
-    }
-
-    private void ShowDots()
-    {
-        foreach (var dot in _dots)
-            dot.Show();
-    }
-
-    private void CreateDotSpawnPoints()
-    {
-        _spawnPoints = ArcadeController.CreateDotSpawnPoints();
-    }
-
-    private void GetPuzzleConfiguration()
-    {
-        _config = ArcadeController.GetPuzzleConfiguration();
+        _config = ArcadeConfigurator.GetPuzzleConfiguration();
+        PuzzlesToSolveTotal = _config.PuzzlesToSolve;
+        _dotHandler.SetConfiguration(_config);
+        _dotHandler.CreateDotSpawnPoints();
+        _dotHandler.CreateDots();
+        _mistakeCount = 0;
+        GenerateClickPuzzle();
     }
 }
 

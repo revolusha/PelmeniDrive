@@ -4,7 +4,7 @@ using UnityEngine.Events;
 
 [RequireComponent(typeof(Timer))]
 
-public class ArcadeController : MonoBehaviour
+public class ArcadeConfigurator : MonoBehaviour
 {
     [Header("Puzzle")]
     [SerializeField] private float _timeToResetPuzzleSerializeField = 4;

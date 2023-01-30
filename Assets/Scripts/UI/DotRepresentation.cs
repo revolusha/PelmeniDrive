@@ -43,4 +43,9 @@ public class DotRepresentation : MonoBehaviour
     {
         GetComponent<Image>().color = Color.white;
     }
+
+    public void MoveToTransform(Transform transform)
+    {
+        this.transform.localPosition = transform.position;
+    }
 }

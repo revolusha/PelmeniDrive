@@ -1,6 +1,3 @@
 using UnityEngine;
 
-public class TreeCatcher : MonoBehaviour
-{
-
-}
+public class TreeCatcher : MonoBehaviour { }
