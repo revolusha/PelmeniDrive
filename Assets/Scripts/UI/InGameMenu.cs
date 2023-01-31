@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+[RequireComponent(typeof(Animator))]
+
 public class InGameMenu : MonoBehaviour
 {
     [SerializeField] private Text _labelText;

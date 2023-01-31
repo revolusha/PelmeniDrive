@@ -61,8 +61,12 @@ public class PlayerTruckMoving : MonoBehaviour
         float _truckRotation = _player.GetRotationImpact();
         float _steeringWheelTurn = _player.GetSteeringWheelState();
 
-        transform.SetPositionAndRotation(transform.position + TruckSpeedFloat * Time.deltaTime * transform.forward, Quaternion.Euler(0, _truckRotation * degree, 0));
-        _steeringWheel.transform.localRotation = Quaternion.Euler(_steeringWheel.transform.localRotation.x, _steeringWheel.transform.localRotation.y, -_steeringWheelTurn * degree);
+        transform.SetPositionAndRotation(transform.position + TruckSpeedFloat * Time.deltaTime * transform.forward, 
+            Quaternion.Euler(0, _truckRotation * degree, 0));
+        _steeringWheel.transform.localRotation = Quaternion.Euler(
+            _steeringWheel.transform.localRotation.x, 
+            _steeringWheel.transform.localRotation.y, 
+            -_steeringWheelTurn * degree);
     }
 
     private void ApplyAcceleration()
