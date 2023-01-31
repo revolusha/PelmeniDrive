@@ -74,6 +74,9 @@ public class Steering
         else
             AlignmentCorrectionTarget = 0;
 
-        _currentSteerAcceleration = Mathf.Lerp(_currentSteerAcceleration, AlignmentCorrectionTarget, _accelerationStep * Time.deltaTime * AlignmentAccelerationMultiplier * _accelerationStep);
+        _currentSteerAcceleration = Mathf.Lerp(
+            _currentSteerAcceleration, 
+            AlignmentCorrectionTarget, 
+            _accelerationStep * Time.deltaTime * AlignmentAccelerationMultiplier * _accelerationStep);
     }
 }
